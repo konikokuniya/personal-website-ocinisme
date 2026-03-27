@@ -1,0 +1,134 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: profile
+    description: Personal profile data
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /profile:
+    get:
+      operationId: getProfile
+      tags: [profile]
+      summary: Get full profile
+      description: Returns full personal profile including bio, experience, skills, and education
+      responses:
+        "200":
+          description: Profile data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    Profile:
+      type: object
+      properties:
+        name:
+          type: string
+        headline:
+          type: string
+        summary:
+          type: string
+        location:
+          type: string
+        email:
+          type: string
+        linkedinUrl:
+          type: string
+        instagramUrl:
+          type: string
+        avatarUrl:
+          type: string
+        highlights:
+          type: array
+          items:
+            $ref: "#/components/schemas/Highlight"
+        skills:
+          type: array
+          items:
+            type: string
+        experience:
+          type: array
+          items:
+            $ref: "#/components/schemas/Experience"
+        education:
+          type: array
+          items:
+            $ref: "#/components/schemas/Education"
+      required:
+        - name
+        - headline
+        - summary
+        - location
+        - highlights
+        - skills
+        - experience
+        - education
+    Experience:
+      type: object
+      properties:
+        company:
+          type: string
+        role:
+          type: string
+        period:
+          type: string
+        description:
+          type: string
+        logoUrl:
+          type: string
+      required:
+        - company
+        - role
+        - period
+        - description
+    Highlight:
+      type: object
+      properties:
+        value:
+          type: string
+        label:
+          type: string
+      required:
+        - value
+        - label
+    Education:
+      type: object
+      properties:
+        institution:
+          type: string
+        degree:
+          type: string
+        period:
+          type: string
+      required:
+        - institution
+        - degree
+        - period
